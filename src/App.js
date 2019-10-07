@@ -1,19 +1,18 @@
 import React from 'react';
-import './App.css';
-import Navigation from './components/common/navigation'
-import Routes from "./routes";
+import Routes from "./Routes";
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './theme';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Navigation /> 
-
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
         <Routes />
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>      
   );
 }
 
