@@ -14,6 +14,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Typography,
   TablePagination
 } from '@material-ui/core';
 
@@ -37,8 +38,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UsersTable = props => {
-  const { className, users, ...rest } = props;
+const TicketsTable = props => {
+  const { className, tickets, ...rest } = props;
 
   const classes = useStyles();
 
@@ -47,12 +48,12 @@ const UsersTable = props => {
   const [page, setPage] = useState(0);
 
   const handleSelectAll = event => {
-    const { users } = props;
+    const { tickets } = props;
 
     let selectedUsers;
 
     if (event.target.checked) {
-      selectedUsers = users.map(user => user.id);
+      selectedUsers = tickets.map(user => user.id);
     } else {
       selectedUsers = [];
     }
@@ -101,40 +102,42 @@ const UsersTable = props => {
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedUsers.length === users.length}
+                      checked={selectedUsers.length === tickets.length}
                       color="primary"
                       indeterminate={
                         selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
+                        selectedUsers.length < tickets.length
                       }
                       onChange={handleSelectAll}
                     />
                   </TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell>Registration date</TableCell>                  
+                  <TableCell>Title</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Created At</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
+                {tickets.slice(0, rowsPerPage).map(ticket => (
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
+                    key={ticket.id}
+                    selected={selectedUsers.indexOf(ticket.id) !== -1}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
+                        checked={selectedUsers.indexOf(ticket.id) !== -1}
                         color="primary"
-                        onChange={event => handleSelectOne(event, user.id)}
+                        onChange={event => handleSelectOne(event, ticket.id)}
                         value="true"
                       />
-                    </TableCell>                    
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>                    
+                    </TableCell>
+                    <TableCell>{ticket.user}</TableCell>
+                    <TableCell>{ticket.title}</TableCell>
+                    <TableCell>{ticket.status}</TableCell>                     
                     <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                      {moment(ticket.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -146,7 +149,7 @@ const UsersTable = props => {
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
-          count={users.length}
+          count={tickets.length}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}
@@ -158,9 +161,9 @@ const UsersTable = props => {
   );
 };
 
-UsersTable.propTypes = {
+TicketsTable.propTypes = {
   className: PropTypes.string,
-  users: PropTypes.array.isRequired
+  tickets: PropTypes.array.isRequired
 };
 
-export default UsersTable;
+export default TicketsTable;
