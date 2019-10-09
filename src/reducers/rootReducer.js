@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import tickets from './ticketReducer';
 
 const rootReducer = combineReducers({
-  // short hand property names
-  tickets
+  tickets,
 })
 
 export default rootReducer;

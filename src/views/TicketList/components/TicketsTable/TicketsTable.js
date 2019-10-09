@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -8,15 +8,15 @@ import {
   Card,
   CardActions,
   CardContent,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Typography,
   TablePagination
 } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { setTicketPage, setTicketsPerPage } from 'actions/ticketActions';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -39,55 +39,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TicketsTable = props => {
-  const { className, tickets, ...rest } = props;
+  const { 
+    className, 
+    tickets, 
+    page,
+    rowsPerPage,
+    handlePageChange,
+    handleRowsPerPageChange,
+    ...rest } = props;
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleSelectAll = event => {
-    const { tickets } = props;
-
-    let selectedUsers;
-
-    if (event.target.checked) {
-      selectedUsers = tickets.map(user => user.id);
-    } else {
-      selectedUsers = [];
-    }
-
-    setSelectedUsers(selectedUsers);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedUsers.indexOf(id);
-    let newSelectedUsers = [];
-
-    if (selectedIndex === -1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
-    } else if (selectedIndex === 0) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedUsers = newSelectedUsers.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedUsers(newSelectedUsers);
-  };
-
-  const handlePageChange = (event, page) => {
-    setPage(page);
-  };
-
-  const handleRowsPerPageChange = event => {
-    setRowsPerPage(event.target.value);
-  };
+  let begin = rowsPerPage * page;
+  let end = begin + rowsPerPage;
 
   return (
     <Card
@@ -100,17 +64,6 @@ const TicketsTable = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedUsers.length === tickets.length}
-                      color="primary"
-                      indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < tickets.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Title</TableCell>
                   <TableCell>Status</TableCell>
@@ -118,26 +71,17 @@ const TicketsTable = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tickets.slice(0, rowsPerPage).map(ticket => (
+                {tickets.slice(begin, end).map(ticket => (
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={ticket.id}
-                    selected={selectedUsers.indexOf(ticket.id) !== -1}
+                    key={ticket.get('id')}                    
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedUsers.indexOf(ticket.id) !== -1}
-                        color="primary"
-                        onChange={event => handleSelectOne(event, ticket.id)}
-                        value="true"
-                      />
-                    </TableCell>
-                    <TableCell>{ticket.user}</TableCell>
-                    <TableCell>{ticket.title}</TableCell>
-                    <TableCell>{ticket.status}</TableCell>                     
+                    <TableCell>{ticket.get('user')}</TableCell>
+                    <TableCell>{ticket.get('title')}</TableCell>
+                    <TableCell>{ticket.get('status')}</TableCell>                     
                     <TableCell>
-                      {moment(ticket.createdAt).format('DD/MM/YYYY')}
+                      {moment(ticket.get('createdAt')).format('DD/MM/YYYY')}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -149,12 +93,12 @@ const TicketsTable = props => {
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
-          count={tickets.length}
+          count={tickets.size}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[1, 5, 10, 25]}
         />
       </CardActions>
     </Card>
@@ -163,7 +107,31 @@ const TicketsTable = props => {
 
 TicketsTable.propTypes = {
   className: PropTypes.string,
-  tickets: PropTypes.array.isRequired
+  tickets: PropTypes.object.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
 };
 
-export default TicketsTable;
+const mapStateToProps = state => {
+  return {
+    tickets: state.getIn(['tickets', 'items']),
+    rowsPerPage: state.getIn(['tickets', 'perPage']),
+    page: state.getIn(['tickets', 'page']),
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handlePageChange: (_, page) => {
+      dispatch(setTicketPage(page))
+    },
+    handleRowsPerPageChange: (event) => {
+      dispatch(setTicketsPerPage(event.target.value))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TicketsTable);
