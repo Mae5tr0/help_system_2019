@@ -50,9 +50,6 @@ const TicketsTable = props => {
 
   const classes = useStyles();
 
-  let begin = rowsPerPage * page;
-  let end = begin + rowsPerPage;
-
   return (
     <Card
       {...rest}
@@ -71,7 +68,7 @@ const TicketsTable = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tickets.slice(begin, end).map(ticket => (
+                {tickets.map(ticket => (
                   <TableRow
                     className={classes.tableRow}
                     hover
@@ -123,10 +120,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handlePageChange: (_, page) => {
-      dispatch(setTicketPage(page))
+      dispatch(setTicketPage(page));
+      
     },
     handleRowsPerPageChange: (event) => {
-      dispatch(setTicketsPerPage(event.target.value))
+      dispatch(setTicketsPerPage(event.target.value));
     }
   }
 }

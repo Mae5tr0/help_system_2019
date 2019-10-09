@@ -1,8 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { TicketsTable } from './components';
-import { loadTickets } from 'actions/ticketActions';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { setTicketPage, setTicketsPerPage, loadTickets } from 'actions/ticketActions';
+import { parse } from 'query-string';
+
+// console.log(qs);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,10 +16,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TicketList = ({ dispatch }) => {
+const TicketList = ({ dispatch, location }) => {
   const classes = useStyles();
+  let { page = 0, per_page = 15 } = parse(location.search, { parseNumbers: true });
 
-  //temporary
+  dispatch(setTicketPage(page));
+  dispatch(setTicketsPerPage(per_page));
   dispatch(loadTickets());
 
   return (

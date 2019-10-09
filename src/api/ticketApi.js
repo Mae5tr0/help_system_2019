@@ -1,6 +1,6 @@
 class TicketApi {
-  static getTickets() {
-    return fetch('http://localhost:3000/api/tickets.json').then(response => {
+  static getTickets(page, per_page) {
+    return fetch(`http://localhost:3000/api/tickets.json?per_page=${per_page}&page=${page}`).then(response => {
       return response.json();
     }).catch(error => {
       return error;

@@ -3,8 +3,11 @@ import ticketApi from 'api/ticketApi';
 import { fromJS } from 'immutable';
 
 export function loadTickets() {
-  return function(dispatch) {
-    return ticketApi.getTickets().then(({ data }) => {
+  return function(dispatch, getState) {
+    let page = getState().getIn(['tickets', 'page']);
+    let per_page = getState().getIn(['tickets', 'perPage']);
+    
+    return ticketApi.getTickets(page, per_page).then(({ data }) => {
       dispatch(loadTicketsSuccess(data));
     }).catch(error => {
       throw(error);

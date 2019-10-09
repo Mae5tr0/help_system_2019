@@ -21,13 +21,11 @@ function Routes() {
       />
       <RouteWithLayout
         component={UserListView}
-        exact
         layout={MainLayout}
         path="/users"
       />
       <RouteWithLayout
         component={TicketListView}
-        exact
         layout={MainLayout}
         path="/tickets"
       />
