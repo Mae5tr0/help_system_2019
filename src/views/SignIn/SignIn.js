@@ -9,9 +9,12 @@ import {
   IconButton,
   TextField,
   Link,
-  Typography
+  Typography,
+  Box
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { signIn } from 'actions/authActions';
+import { connect } from 'react-redux';
 
 const schema = {
   email: {
@@ -52,22 +55,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
-  },
-  quoteInner: {
-    textAlign: 'center',
-    flexBasis: '600px'
-  },
-  quoteText: {
-    color: theme.palette.white,
-    fontWeight: 300
-  },
-  name: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.white
-  },
-  bio: {
-    color: theme.palette.white
-  },
+  },  
   contentContainer: {},
   content: {
     height: '100%',
@@ -130,7 +118,11 @@ const SignIn = props => {
 
   const [formState, setFormState] = useState({
     isValid: false,
-    values: {},
+    values: {
+      //debug
+      email: 'example@example.com',
+      password: 'example'
+    },
     touched: {},
     errors: {}
   });
@@ -170,7 +162,23 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
-    history.push('/');
+
+    if (formState.values.email === 'example@example.com' && formState.values.password === 'example') {
+      props.dispatch(signIn());
+      history.push('/');
+    } else {
+      setFormState(formState => ({
+        ...formState,
+        errors: {
+          ...formState.errors,
+          general: "Invalid email or password",
+        },
+        touched: {
+          ...formState.touched,
+          general: true,
+        }
+      }));
+    }
   };
 
   const hasError = field =>
@@ -187,31 +195,7 @@ const SignIn = props => {
           item
           lg={5}
         >
-          <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              <Typography
-                className={classes.quoteText}
-                variant="h1"
-              >
-                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                they sold out High Life.
-              </Typography>
-              <div className={classes.person}>
-                <Typography
-                  className={classes.name}
-                  variant="body1"
-                >
-                  Takamaru Ayako
-                </Typography>
-                <Typography
-                  className={classes.bio}
-                  variant="body2"
-                >
-                  Manager at inVision
-                </Typography>
-              </div>
-            </div>
-          </div>
+          <div className={classes.quote}></div>
         </Grid>
         <Grid
           className={classes.content}
@@ -235,21 +219,7 @@ const SignIn = props => {
                   variant="h2"
                 >
                   Sign in
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Sign in with social media
                 </Typography>                
-                <Typography
-                  align="center"
-                  className={classes.sugestion}
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  or login with email address
-                </Typography>
                 <TextField
                   className={classes.textField}
                   error={hasError('email')}
@@ -289,6 +259,9 @@ const SignIn = props => {
                 >
                   Sign in now
                 </Button>
+                <Box pb={2} component="span" color="error.main" display={hasError('general') ? 'block' : 'none'}>
+                  {formState.errors.general}
+                </Box>               
                 <Typography
                   color="textSecondary"
                   variant="body1"
@@ -315,4 +288,4 @@ SignIn.propTypes = {
   history: PropTypes.object
 };
 
-export default withRouter(SignIn);
+export default withRouter(connect()(SignIn));

@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 import { AppBar, Toolbar, Hidden, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
+import { logout } from 'actions/authActions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,9 +23,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
+  const { className, history, dispatch, onSidebarOpen, ...rest } = props;
 
   const classes = useStyles();
+
+  const handleLogout = event => {
+    event.preventDefault();
+
+    dispatch(logout());
+    history.push('/');
+  };
 
   return (
     <AppBar
@@ -41,6 +51,7 @@ const Topbar = props => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={handleLogout}
           >
             <InputIcon />
           </IconButton>
@@ -63,4 +74,4 @@ Topbar.propTypes = {
   onSidebarOpen: PropTypes.func
 };
 
-export default Topbar;
+export default withRouter(connect()(Topbar));

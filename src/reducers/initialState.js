@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 export default fromJS({
-  // authToken: null,
+  authToken: null,
   // profile: null,
   // users: [],
   tickets: {
