@@ -1,26 +1,26 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer } from '@material-ui/core';
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import PeopleIcon from '@material-ui/icons/People';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
+import { Divider, Drawer } from "@material-ui/core";
+import ContactSupportIcon from "@material-ui/icons/ContactSupport";
+import PeopleIcon from "@material-ui/icons/People";
 
-import { Profile, SidebarNav } from './components';
+import { Profile, SidebarNav } from "./components";
 
 const useStyles = makeStyles(theme => ({
   drawer: {
     width: 240,
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       marginTop: 64,
-      height: 'calc(100% - 64px)'
+      height: "calc(100% - 64px)"
     }
   },
   root: {
     backgroundColor: theme.palette.white,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     padding: theme.spacing(2)
   },
   divider: {
@@ -38,13 +38,13 @@ const Sidebar = props => {
 
   const pages = [
     {
-      title: 'Tickets',
-      href: '/tickets',
+      title: "Tickets",
+      href: "/tickets",
       icon: <ContactSupportIcon />
     },
     {
-      title: 'Users',
-      href: '/users',
+      title: "Users",
+      href: "/users",
       icon: <PeopleIcon />
     }
   ];
@@ -57,16 +57,10 @@ const Sidebar = props => {
       open={open}
       variant={variant}
     >
-      <div
-        {...rest}
-        className={clsx(classes.root, className)}
-      >
+      <div {...rest} className={clsx(classes.root, className)}>
         <Profile />
         <Divider className={classes.divider} />
-        <SidebarNav
-          className={classes.nav}
-          pages={pages}
-        />        
+        <SidebarNav className={classes.nav} pages={pages} />
       </div>
     </Drawer>
   );

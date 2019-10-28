@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import Routes from "./Routes";
-import { BrowserRouter as Router } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/styles';
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider } from "@material-ui/styles";
 // import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from './theme';
+import theme from "./theme";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes />
       </Router>
-    </ThemeProvider>      
+    </ThemeProvider>
   );
 }
 

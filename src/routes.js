@@ -1,24 +1,20 @@
-import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
-import RouteWithLayout from './components/RouteWithLayout';
+import React from "react";
+import { Redirect, Switch } from "react-router-dom";
+import RouteWithLayout from "./components/RouteWithLayout";
 
-import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
+import { Main as MainLayout, Minimal as MinimalLayout } from "./layouts";
 import {
   TicketList as TicketListView,
   UserList as UserListView,
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView
-} from './views';
+} from "./views";
 
 function Routes() {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/tickets"
-      />
+      <Redirect exact from="/" to="/tickets" />
       <RouteWithLayout
         component={UserListView}
         layout={MainLayout}
@@ -47,8 +43,8 @@ function Routes() {
         layout={MinimalLayout}
         path="/not-found"
       />
-      <Redirect to="/not-found" />               
-    </Switch> 
+      <Redirect to="/not-found" />
+    </Switch>
   );
 }
 

@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 // import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Hidden, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import InputIcon from '@material-ui/icons/Input';
-import { logout } from 'actions/authActions';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
+import { AppBar, Toolbar, Hidden, IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import InputIcon from "@material-ui/icons/Input";
+import { logout } from "actions/authActions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: "none"
   },
   flexGrow: {
     flexGrow: 1
@@ -31,14 +31,11 @@ const Topbar = props => {
     event.preventDefault();
 
     dispatch(logout());
-    history.push('/');
+    history.push("/");
   };
 
   return (
-    <AppBar
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <AppBar {...rest} className={clsx(classes.root, className)}>
       <Toolbar>
         {/* <RouterLink to="/">
           <img
@@ -47,7 +44,7 @@ const Topbar = props => {
           />
         </RouterLink> */}
         <div className={classes.flexGrow} />
-        <Hidden mdDown>          
+        <Hidden mdDown>
           <IconButton
             className={classes.signOutButton}
             color="inherit"
@@ -57,10 +54,7 @@ const Topbar = props => {
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onSidebarOpen}
-          >
+          <IconButton color="inherit" onClick={onSidebarOpen}>
             <MenuIcon />
           </IconButton>
         </Hidden>

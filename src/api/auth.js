@@ -1,17 +1,17 @@
-import { post } from './utils';
+import { post } from "./utils";
 
 export default {
-    signIn(email, password) {
-        post("/auth/signin", {
-            email,
-            password
-        });
-    },
+  signIn(email, password) {
+    post("/auth/signin", {
+      email,
+      password
+    });
+  },
 
-    signUp() {
-        post("auth/signup", {
-            email,
-            password
-        });
-    }
+  signUp() {
+    post("auth/signup", {
+      email,
+      password
+    });
+  }
 };

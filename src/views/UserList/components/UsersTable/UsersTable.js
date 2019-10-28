@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import moment from "moment";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { makeStyles } from "@material-ui/styles";
 import {
   Card,
   CardActions,
@@ -15,7 +15,7 @@ import {
   TableHead,
   TableRow,
   TablePagination
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -26,14 +26,14 @@ const useStyles = makeStyles(theme => ({
     minWidth: 1050
   },
   nameContainer: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
   avatar: {
     marginRight: theme.spacing(2)
   },
   actions: {
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end"
   }
 }));
 
@@ -89,10 +89,7 @@ const UsersTable = props => {
   };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
@@ -112,7 +109,7 @@ const UsersTable = props => {
                   </TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Role</TableCell>
-                  <TableCell>Registration date</TableCell>                  
+                  <TableCell>Registration date</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -130,11 +127,11 @@ const UsersTable = props => {
                         onChange={event => handleSelectOne(event, user.id)}
                         value="true"
                       />
-                    </TableCell>                    
+                    </TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>                    
+                    <TableCell>{user.role}</TableCell>
                     <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                      {moment(user.createdAt).format("DD/MM/YYYY")}
                     </TableCell>
                   </TableRow>
                 ))}

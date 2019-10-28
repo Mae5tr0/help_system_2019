@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux-immutable';
-import tickets from './ticketReducer';
-import authReducer from './authReducer';
+import { combineReducers } from "redux-immutable";
+import tickets from "./ticketReducer";
+import authReducer from "./authReducer";
 
 const rootReducer = combineReducers({
   tickets,
-  authToken: authReducer  
+  authToken: authReducer
 });
 
 export default rootReducer;
