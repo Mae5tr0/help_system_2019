@@ -8,7 +8,7 @@ export default {
     });
   },
 
-  signUp() {
+  signUp(email, password) {
     post("auth/signup", {
       email,
       password
