@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from "react";
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import validate from "validate.js";
+import { makeStyles } from "@material-ui/styles";
 import {
   Grid,
   Button,
@@ -11,21 +11,21 @@ import {
   Link,
   Typography,
   Box
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { signIn } from 'actions/authActions';
-import { connect } from 'react-redux';
+} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { signIn } from "actions/authActions";
+import { connect } from "react-redux";
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: "is required" },
     email: true,
     length: {
       maximum: 64
     }
   },
   password: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: "is required" },
     length: {
       maximum: 128
     }
@@ -35,36 +35,36 @@ const schema = {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    height: '100%'
+    height: "100%"
   },
   grid: {
-    height: '100%'
+    height: "100%"
   },
   quoteContainer: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
+    [theme.breakpoints.down("md")]: {
+      display: "none"
     }
   },
   quote: {
     backgroundColor: theme.palette.neutral,
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundImage: 'url(/images/auth.jpg)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center'
-  },  
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundImage: "url(/images/auth.jpg)",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center"
+  },
   contentContainer: {},
   content: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
+    height: "100%",
+    display: "flex",
+    flexDirection: "column"
   },
   contentHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     paddingTop: theme.spacing(5),
     paddingBototm: theme.spacing(2),
     paddingLeft: theme.spacing(2),
@@ -75,10 +75,10 @@ const useStyles = makeStyles(theme => ({
   },
   contentBody: {
     flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.down('md')]: {
-      justifyContent: 'center'
+    display: "flex",
+    alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "center"
     }
   },
   form: {
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 100,
     paddingBottom: 125,
     flexBasis: 700,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2)
     }
@@ -120,8 +120,8 @@ const SignIn = props => {
     isValid: false,
     values: {
       //debug
-      email: 'example@example.com',
-      password: 'example'
+      email: "example@example.com",
+      password: "example"
     },
     touched: {},
     errors: {}
@@ -149,7 +149,7 @@ const SignIn = props => {
       values: {
         ...formState.values,
         [event.target.name]:
-          event.target.type === 'checkbox'
+          event.target.type === "checkbox"
             ? event.target.checked
             : event.target.value
       },
@@ -163,19 +163,22 @@ const SignIn = props => {
   const handleSignIn = event => {
     event.preventDefault();
 
-    if (formState.values.email === 'example@example.com' && formState.values.password === 'example') {
+    if (
+      formState.values.email === "example@example.com" &&
+      formState.values.password === "example"
+    ) {
       props.dispatch(signIn());
-      history.push('/');
+      history.push("/");
     } else {
       setFormState(formState => ({
         ...formState,
         errors: {
           ...formState.errors,
-          general: "Invalid email or password",
+          general: "Invalid email or password"
         },
         touched: {
           ...formState.touched,
-          general: true,
+          general: true
         }
       }));
     }
@@ -186,23 +189,11 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
-      <Grid
-        className={classes.grid}
-        container
-      >
-        <Grid
-          className={classes.quoteContainer}
-          item
-          lg={5}
-        >
+      <Grid className={classes.grid} container>
+        <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}></div>
         </Grid>
-        <Grid
-          className={classes.content}
-          item
-          lg={7}
-          xs={12}
-        >
+        <Grid className={classes.content} item lg={7} xs={12}>
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>
@@ -210,42 +201,36 @@ const SignIn = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <form
-                className={classes.form}
-                onSubmit={handleSignIn}
-              >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
+              <form className={classes.form} onSubmit={handleSignIn}>
+                <Typography className={classes.title} variant="h2">
                   Sign in
-                </Typography>                
+                </Typography>
                 <TextField
                   className={classes.textField}
-                  error={hasError('email')}
+                  error={hasError("email")}
                   fullWidth
                   helperText={
-                    hasError('email') ? formState.errors.email[0] : null
+                    hasError("email") ? formState.errors.email[0] : null
                   }
                   label="Email address"
                   name="email"
                   onChange={handleChange}
                   type="text"
-                  value={formState.values.email || ''}
+                  value={formState.values.email || ""}
                   variant="outlined"
                 />
                 <TextField
                   className={classes.textField}
-                  error={hasError('password')}
+                  error={hasError("password")}
                   fullWidth
                   helperText={
-                    hasError('password') ? formState.errors.password[0] : null
+                    hasError("password") ? formState.errors.password[0] : null
                   }
                   label="Password"
                   name="password"
                   onChange={handleChange}
                   type="password"
-                  value={formState.values.password || ''}
+                  value={formState.values.password || ""}
                   variant="outlined"
                 />
                 <Button
@@ -259,19 +244,17 @@ const SignIn = props => {
                 >
                   Sign in now
                 </Button>
-                <Box pb={2} component="span" color="error.main" display={hasError('general') ? 'block' : 'none'}>
-                  {formState.errors.general}
-                </Box>               
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
+                <Box
+                  pb={2}
+                  component="span"
+                  color="error.main"
+                  display={hasError("general") ? "block" : "none"}
                 >
-                  Don't have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-up"
-                    variant="h6"
-                  >
+                  {formState.errors.general}
+                </Box>
+                <Typography color="textSecondary" variant="body1">
+                  Don't have an account?{" "}
+                  <Link component={RouterLink} to="/sign-up" variant="h6">
                     Sign up
                   </Link>
                 </Typography>

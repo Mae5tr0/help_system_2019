@@ -1,9 +1,9 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import moment from "moment";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { makeStyles } from "@material-ui/styles";
 import {
   Card,
   CardActions,
@@ -14,9 +14,9 @@ import {
   TableHead,
   TableRow,
   TablePagination
-} from '@material-ui/core';
-import { connect } from 'react-redux';
-import { setTicketPage, setTicketsPerPage } from 'actions/ticketActions';
+} from "@material-ui/core";
+import { connect } from "react-redux";
+import { setTicketPage, setTicketsPerPage } from "actions/ticketActions";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -27,34 +27,32 @@ const useStyles = makeStyles(theme => ({
     minWidth: 1050
   },
   nameContainer: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
   avatar: {
     marginRight: theme.spacing(2)
   },
   actions: {
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end"
   }
 }));
 
 const TicketsTable = props => {
-  const { 
-    className, 
-    tickets, 
+  const {
+    className,
+    tickets,
     page,
     rowsPerPage,
     handlePageChange,
     handleRowsPerPageChange,
-    ...rest } = props;
+    ...rest
+  } = props;
 
   const classes = useStyles();
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
@@ -72,13 +70,13 @@ const TicketsTable = props => {
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={ticket.get('id')}                    
+                    key={ticket.get("id")}
                   >
-                    <TableCell>{ticket.get('user')}</TableCell>
-                    <TableCell>{ticket.get('title')}</TableCell>
-                    <TableCell>{ticket.get('status')}</TableCell>                     
+                    <TableCell>{ticket.get("user")}</TableCell>
+                    <TableCell>{ticket.get("title")}</TableCell>
+                    <TableCell>{ticket.get("status")}</TableCell>
                     <TableCell>
-                      {moment(ticket.get('createdAt')).format('DD/MM/YYYY')}
+                      {moment(ticket.get("createdAt")).format("DD/MM/YYYY")}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -106,28 +104,27 @@ TicketsTable.propTypes = {
   className: PropTypes.string,
   tickets: PropTypes.object.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    tickets: state.getIn(['tickets', 'items']),
-    rowsPerPage: state.getIn(['tickets', 'perPage']),
-    page: state.getIn(['tickets', 'page']),
+    tickets: state.getIn(["tickets", "items"]),
+    rowsPerPage: state.getIn(["tickets", "perPage"]),
+    page: state.getIn(["tickets", "page"])
   };
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     handlePageChange: (_, page) => {
       dispatch(setTicketPage(page));
-      
     },
-    handleRowsPerPageChange: (event) => {
+    handleRowsPerPageChange: event => {
       dispatch(setTicketsPerPage(event.target.value));
     }
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
